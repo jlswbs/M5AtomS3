@@ -6,8 +6,7 @@ M5Display Lcd;
 #define WIDTH   130
 #define HEIGHT  130
 #define SCR     (WIDTH*HEIGHT)
-#define NUMS    24
-#define COLS    12
+#define NUMS    16
 
 float randomf(float minf, float maxf) {return minf + (esp_random()%(1UL << 31))*(maxf - minf) / (1UL << 31);}
 
@@ -24,8 +23,12 @@ void rndrule(){
   memset(v, 0, 4*SCR);
   memset(a, 0, 4*SCR);
 
-  for (int i = 0; i < NUMS; i++) v[(1+esp_random()%(WIDTH-2))+(1+esp_random()%(HEIGHT-2))*WIDTH] = randomf(0.0f, TWO_PI);
-  for (int i = 0; i < COLS; i++) color[i] = esp_random();
+  for (int i = 0; i < NUMS; i++){
+
+    v[(1+esp_random()%(WIDTH-2))+(1+esp_random()%(HEIGHT-2))*WIDTH] = randomf(0.0f, TWO_PI);
+    color[i] = esp_random();    
+
+  }
          
 }
 
@@ -52,8 +55,8 @@ void loop(void){
   for (int i = 0; i < SCR; i++){
     v[i] += a[i];
     p[i] += v[i];
-    uint8_t coll = COLS * sinf(p[i]);
-    col[i] = color[coll%COLS];
+    uint8_t coll = NUMS * sinf(p[i]);
+    col[i] = color[coll%NUMS];
   }
 
   Lcd.drawBitmap(0, 0, WIDTH, HEIGHT, col);
