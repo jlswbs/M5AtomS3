@@ -66,7 +66,7 @@ void loop(void){
 
   memcpy(cells, nextcells, SCR);
   cells[(esp_random()%WIDTH)+(esp_random()%HEIGHT)*WIDTH] = 1;
-
+  delayMicroseconds(240); 
   Lcd.drawBitmap(0, 0, WIDTH, HEIGHT, col);
   M5.update();
 
